@@ -1,0 +1,141 @@
+@CHARSET "UTF-8";
+
+@font-face {
+	font-family: Myriad Pro Condensed;
+	src: local(Myriad Pro Condensed), url(MYRIADPRO-COND.woff);
+}
+
+.picTest {
+	opacity: 0.2;
+	z-index: -2;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: -35%%;
+
+}
+
+.logoName h2 {
+	font-family: Myriad Pro Condensed;
+	font-weight: 200;
+	font-size: 64px;
+	color: #333;
+	margin: 0px;
+}
+
+.tagline span {
+	font-family: Myriad Pro Condensed;
+	font-weight: 100;
+	font-size: 40px;
+	color: #333;
+	position: relative;
+	margin: 0px;
+	/* 	background: linear-gradient(330deg, #e05252 0%, #99e052 25%, #52e0e0 50%, #9952e0 75%, #e05252 100%); */
+	/* -webkit-background-clip: text; */
+	/* -webkit-text-fill-color: transparent; */
+}
+
+.tagline {
+	margin-top: -10%;
+}
+
+.logoName {
+	margin: 5%;
+	margin-left: 20%;
+}
+
+.logoContainer {
+	position: absolute;
+	left: 30%;
+	display: inline;
+	width: auto;
+	top: 30%;
+}
+
+.contain {
+	top: 30%;
+	display: none;
+}
+
+.loginForm {
+	display: inline;
+	left: 65%;
+	top: 35%;
+	position: absolute;
+	width: 20%;
+}
+
+.usernameInput {
+	position: relative;
+	margin: 5%;
+	border-top: transparent;
+	border-left: transparent;
+	border-right: transparent;
+	font-family: Myriad Pro Condensed;
+	color: #333;
+	font-size: larger;
+	width: 100%;
+}
+
+input:focus {
+	outline: none !important;
+	border-top: transparent;
+	border-left: transparent;
+	border-right: transparent;
+}
+
+button:hover {
+	outline: none !important;
+	border: hidden;
+	cursor: pointer;
+}
+
+button:focus {
+	outline: none !important;
+	border: hidden;
+	cursor: pointer;
+}
+
+.passwordInput {
+	position: relative;
+	margin: 5%;
+	border-top: transparent;
+	border-left: transparent;
+	border-right: transparent;
+	font-family: Myriad Pro Condensed;
+	color: #333;
+	font-size: larger;
+	width: 100%;
+}
+
+.divider {
+	border: 1px solid #d6d6d6;
+	display: inline;
+	height: 60%;
+	position: absolute;
+	left: 57%;
+	top: 20%;;
+}
+
+#loginButton {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	margin-top: 15%;
+	margin-left: 15%;
+	width: 80%;
+	border-radius: 5px;
+	color: #FFF;
+	font-size: 16px;
+	border: 1px solid #CCC;
+	padding: 5% 10%;
+	background: rgb(98, 186, 236);
+	background: -moz-linear-gradient(top, rgba(26, 214, 253, 1) 0%,
+		rgba(29, 98, 240, 1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(26,
+		214, 253, 1)), color-stop(100%, rgba(29, 98, 240, 1, 1)));
+	background: -webkit-linear-gradient(top, rgba(26, 214, 253, 1) 0%,
+		rgba(29, 98, 240, 1) 100%);
+	background: linear-gradient(top, rgba(26, 214, 253, 1) 0%,
+		rgba(29, 98, 240, 1) 100%);
+	width: 80%;
+}
