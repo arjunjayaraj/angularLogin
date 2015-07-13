@@ -1,0 +1,14 @@
+*.DS_Store
+bin
+target
+.classpath
+.project
+.settings
+src/main/webapp/META-INF
+.idea
+*.iml
+*~
+*.swp
+src/main/webapp/resources/.sass-cache/
+src/main/resources/database.properties
+log/**
