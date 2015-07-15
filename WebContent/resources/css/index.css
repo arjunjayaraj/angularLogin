@@ -12,7 +12,6 @@
 	width: 100%;
 	height: 100%;
 	left: -35%%;
-
 }
 
 .logoName h2 {
@@ -117,7 +116,7 @@ button:focus {
 	top: 20%;;
 }
 
-#loginButton {
+.submitButton {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	margin-top: 15%;
@@ -139,3 +138,16 @@ button:focus {
 		rgba(29, 98, 240, 1) 100%);
 	width: 80%;
 }
+
+.loginPillActive {
+	color: #007AFF !important;
+	background-color: transparent !important;
+	font-size: medium;
+	font-style: italic;
+	border-bottom: solid #4CD964;
+}
+
+.loginPill {
+	color: #34AADC;
+}
+
