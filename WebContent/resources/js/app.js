@@ -1,6 +1,7 @@
 (function(){
 
 	var myapp = angular.module("myapp", []);
+
 	myapp.controller('LoginController', ['$scope','$http',function($scope,$http) {
 		 console.log("The username is ",$scope.username);
 		 console.log("The username is ",$scope.password);
@@ -14,17 +15,18 @@
             console.log('data',status);
             console.log('headers',status);
         });};
-        myapp.controller('loginPanelCtrl', function($scope) {
-        	this.tab=1;
-        	this.selectTab=function(setTab){
-        		this.tab=setTab;
-        	};
-        	this.isSelected=function(checkTab){
-        		return this.tab===checkTab;
-        	};
-        });
-
-         
+                
 	}])
+
+	myapp.controller('TabController', function (){
+		this.tab = 1;
+		this.selectTab = function (setTab){
+		this.tab = setTab;
+		};
+		this.isSelected = function(checkTab) {
+		return this.tab === checkTab;
+		};
+		});
+
 
 })();

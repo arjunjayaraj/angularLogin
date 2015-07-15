@@ -12,7 +12,6 @@
 	width: 100%;
 	height: 100%;
 	left: -35%%;
-
 }
 
 .logoName h2 {
@@ -138,4 +137,15 @@ button:focus {
 	background: linear-gradient(top, rgba(26, 214, 253, 1) 0%,
 		rgba(29, 98, 240, 1) 100%);
 	width: 80%;
+}
+
+.loginPillActive {
+	color: #007AFF !important;
+	background-color: transparent !important;
+	font-size: medium;
+	font-style: italic;
+}
+
+.loginPill {
+	color: #8E8E93;
 }

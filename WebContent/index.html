@@ -34,21 +34,37 @@
 			</ul>
 			</section>
 			<div class="loginForm">
-				<form ng-controller="LoginController as loginCtrl">
+				<section class="tab" ng-controller="TabController as panel">
+					<ul class="nav nav-pills">
+						<li ng-class="{loginPillActive:panel.isSelected(1) }"><a href
+							ng-click="panel.selectTab(1)" class="loginPill">Login</a></li>
+						<li ng-class="{loginPillActive:panel.isSelected(2) }"><a href
+							ng-click="panel.selectTab(2)" class="loginPill">Register</a></li>
+					</ul>
+					<form ng-controller="LoginController as loginCtrl">
 						<div id="username">
-						<input type="text" class="usernameInput" placeholder="Username"
-							value="asdasdas" ng-model="loginCtrl.username">
-					</div>
-					<div id="password">
-						<input type="password" class="passwordInput"
-							placeholder="Password" value=""  ng-model="loginCtrl.password">
-					</div>
-					<button type="button" id="loginButton" ng-click="login()">Login</button>
-				</form>
+							<input type="text" class="usernameInput" placeholder="Username"
+								value="asdasdas" ng-model="loginCtrl.user.username">
+						</div>
+						<div id="password">
+							<input type="password" class="passwordInput"
+								placeholder="Password" value=""
+								ng-model="loginCtrl.user.password">
+						</div>
+						<div ng-show="panel.isSelected(1)">
+							<button type="button" ng-show="panel.isSelected(1)" class="submitButton">Login</button>
+						</div>
+						<div ng-show="panel.isSelected(2)">
+							<button type="button" class="submitButton">Register</button>
+						</div>
+					</form>
+				</section>
+
 			</div>
 		</div>
 	</div>
 </body>
+
 
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
