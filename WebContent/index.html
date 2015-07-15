@@ -27,6 +27,7 @@
 				</div>
 			</div>
 			<div class="divider"></div>
+
 			<div class="loginForm">
 				<section class="tab" ng-controller="TabController as panel">
 					<ul class="nav nav-pills">
@@ -46,13 +47,14 @@
 								ng-model="loginCtrl.user.password">
 						</div>
 						<div ng-show="panel.isSelected(1)">
-							<button type="button" ng-show="panel.isSelected(1)" class="submitButton">Login</button>
+							<button type="button" ng-show="panel.isSelected(1)" class="submitButton" ng-click="login()">Login</button>
 						</div>
 						<div ng-show="panel.isSelected(2)">
 							<button type="button" class="submitButton">Register</button>
 						</div>
 					</form>
 				</section>
+
 			</div>
 		</div>
 	</div>
