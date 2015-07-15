@@ -1,4 +1,8 @@
 (function(){
+	var user ={
+			username :  "arjun" ,
+			password: "arjun"			
+	}
 
 	var myapp = angular.module("myapp", []);
 
@@ -6,13 +10,13 @@
 		 console.log("The username is ",$scope.username);
 		 console.log("The username is ",$scope.password);
 	   $scope.login=function(){ $http({
-            method :'GET',
-            url:'http://localhost:8089/spark/',
-//            data: { username :  $scope.username , password: $scope.password},
-            headers: {'Content-Type': 'application/json'}
+            method :'POST',
+            url:'http://localhost:8089/spark/logintest',
+            data:JSON.stringify(user),
+            contentType: 'application/json; charset=utf-8'
         }).success(function (data, status, headers, config) {
             console.log('status',status);
-            console.log('data',status);
+            console.log('the data is data',status);
             console.log('headers',status);
         });};
                 
