@@ -144,8 +144,9 @@ button:focus {
 	background-color: transparent !important;
 	font-size: medium;
 	font-style: italic;
+	border-bottom: solid #4CD964;
 }
 
 .loginPill {
-	color: #8E8E93;
+	color: #34AADC;
 }
