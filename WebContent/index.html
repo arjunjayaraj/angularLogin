@@ -31,20 +31,20 @@
 			<div class="loginForm">
 				<section class="tab" ng-controller="TabController as panel">
 					<ul class="nav nav-pills">
-						<li ng-class="{loginPillActive:panel.isSelected(1) }"><a href
-							ng-click="panel.selectTab(1)" class="loginPill">Login</a></li>
+						<li class="loginPill" ng-class="{loginPillActive:panel.isSelected(1) }"><a href
+							ng-click="panel.selectTab(1)" >Login</a></li>
 						<li ng-class="{loginPillActive:panel.isSelected(2) }"><a href
 							ng-click="panel.selectTab(2)" class="loginPill">Register</a></li>
 					</ul>
 					<form ng-controller="LoginController as loginCtrl">
 						<div id="username">
 							<input type="text" class="usernameInput" placeholder="Username"
-								value="asdasdas" ng-model="loginCtrl.user.username">
+								value="asdasdas" ng-model="user.username">
 						</div>
 						<div id="password">
 							<input type="password" class="passwordInput"
 								placeholder="Password" value=""
-								ng-model="loginCtrl.user.password">
+								ng-model="user.password">
 						</div>
 						<div ng-show="panel.isSelected(1)">
 							<button type="button" ng-show="panel.isSelected(1)" class="submitButton" ng-click="login()">Login</button>
@@ -58,6 +58,8 @@
 			</div>
 		</div>
 	</div>
+	
+
 </body>
 
 
