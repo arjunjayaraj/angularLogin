@@ -3,31 +3,72 @@ var test={
 		username : "arjun",
 		password : "arjun",
 		enabled: "false"
-		
-};
-	var myapp = angular.module("myapp", []);
+};		
 
+
+	var myapp = angular.module("myapp", [ 'ngCookies' ]).factory(
+			'XSRFInterceptor', function($cookies, $log) {
+
+				var XSRFInterceptor = {
+
+					request : function(config) {
+
+						var token = $cookies.get('XSRF-TOKEN');
+						
+
+						if (token) {
+							config.headers['X-CSRF-TOKEN'] = token;
+						}
+
+						return config;
+					}
+				};
+				return XSRFInterceptor;
+			});
+	myapp.config([ '$httpProvider', function($httpProvider) {
+
+		$httpProvider.defaults.withCredentials = true;
+		$httpProvider.interceptors.push('XSRFInterceptor');
+
+	} ]);
+	console.log("in ajax function");
 	myapp.controller('LoginController', [ '$scope', '$http',
 			function($scope, $http) {
 				$scope.user = {
-					username : "arjun",
-					password : "arjun",
+						email : "",
+					fName : "fname",
+					lName : "lname",
+					password : ""
 				};
 
-						$scope.login = function() {
+				console.log("The username is ", $scope.user.username);
+				console.log("The username is ", $scope.user.password);
+				$scope.register = function() {
+
 					$http({
 						method : 'POST',
-						url : 'http://localhost:8089/SurveyManagementSystem/reg',
-						params : test,
-						contentType : 'application/json; charset=utf-8'
+						url : 'http://localhost:8089/Cart/registernew',
+						params : $scope.user,
+						contentType : 'application/json'
 					}).success(function(data, status, headers, config) {
-						console.log('status', status);
-						console.log('the data is data', data);
-						console.log('headers', status);
+						
 					});
+
+				};
+				$scope.login = function() {
+
+					$http({
+						method : 'POST',
+						url : 'http://localhost:8089/Cart/j_spring_security_check',
+						params : $scope.user,
+						contentType : 'application/json'
+					}).success(function(data, status, headers, config) {
+						
+					});
+
 				};
 
-			} ]);
+			} ])
 
 	myapp.controller('TabController', function() {
 		this.tab = 1;
