@@ -1,28 +1,106 @@
-<html>
+<!DOCTYPE html>
+<html ng-app="myapp">
 <head>
+<meta charset="UTF-8">
+
+    <!-- default header name is X-CSRF-TOKEN -->
+ 
+<link rel="stylesheet" type="text/css" href="resources/css/index.css">
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<script
+	<script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-resource.js"></script>
+	
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-cookies.js"></script>
+
+
+<title>Welcome to Spark</title>
+ 
+</head>
+<body>
+
+
+	<div id="mainContainer">
+		<div class="contain">
+
+			<img src="resources/images/logo_just_spark.svg" class="picTest" />
+			<div class="logoContainer">
+
+				<div class="logoName">
+					<h2>
+						<strong>Spark</strong>
+					</h2>
+				</div>
+				<div class="tagline">
+					<span>Start Coding Today</span>
+				</div>
+			</div>
+			<div class="divider"></div>
+
+			<div class="loginForm">
+				<section class="tab" ng-controller="TabController as panel">
+					<ul class="nav nav-pills">
+						<li ng-class="{loginPillActive:panel.isSelected(1) }"><a href
+							ng-click="panel.selectTab(1)" class="loginPill">Login</a></li>
+						<li ng-class="{loginPillActive:panel.isSelected(2) }"><a href
+							ng-click="panel.selectTab(2)" class="loginPill">Register</a></li>
+					</ul>
+					<form ng-controller="LoginController as loginCtrl">
+						<div id="username">
+							<input type="text" class="usernameInput" placeholder="Username"
+								value="" ng-model="user.email">
+						</div>
+						<div id="password">
+							<input type="password" class="passwordInput"
+								placeholder="Password" value=""
+								ng-model="user.password">
+						</div>
+						<div ng-show="panel.isSelected(1)">
+							<button type="button" ng-show="panel.isSelected(1)" class="submitButton" ng-click="login()">Login</button>
+						</div>
+						<div ng-show="panel.isSelected(2)">
+							<button type="button" class="submitButton" ng-click="register()">Register</button>
+						</div>
+					</form>
+				</section>
+
+			</div>
+		</div>
+	</div>
+	<div>
+<a href=javascript:logintest()>Login test</a>
+</div>
+</body>
+<script type="text/javascript">
+function logintest(){
+	var usertest = {
+			email:"testridfdang@gmail.com",
+			fName:"fname",
+			lName:"lname",
+			password:"password"		
+		};
+var searchQuery ="arjun";
+var search = "arjun";
+console.log("in ordinary ajax function");
+    $.ajax({
+    type: "GET",
+    url: "http://localhost:8089/Cart/registernew",
+    contentType : 'application/json; charset=utf-8',
+    data:usertest,
+             
+      success :function(result) {
+console.log("The test is sucess in ordinary ajax");
+    		          			
+  }});	    
+}
+</script>
+
 
 <script
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="resources/js/index.js" type="text/javascript"></script>
 <script src="resources/js/test.js" type="text/javascript"></script>
 
-
-</head>
-<body ng-app="testApp.controllers">
-<section ng-controller="ResourceController">
-				<form ng-submit="login()">
-				<input type="text" placeholder="username" name="username">
-				<input type="text" placeholder="password" name="password">
-				<input type="submit">
-				
-				</form>
-				</section>
-</body>
 </html>
