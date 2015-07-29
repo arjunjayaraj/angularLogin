@@ -1,12 +1,13 @@
 (function() {
-var test={
-		username : "arjun",
-		password : "arjun",
-		enabled: "false"
-};		
-
-
-	var myapp = angular.module("myapp", [ 'ngCookies' ]).factory(
+	var usertest = {
+		email : "testangular2@gmail.com",
+		fName : "fname",
+		lName : "lname",
+		password : "password"
+	};
+ 
+	var myapp = angular.module("myapp", [ 'ngCookies'])
+	.factory(
 			'XSRFInterceptor', function($cookies, $log) {
 
 				var XSRFInterceptor = {
@@ -15,27 +16,29 @@ var test={
 
 						var token = $cookies.get('XSRF-TOKEN');
 						
-
 						if (token) {
 							config.headers['X-CSRF-TOKEN'] = token;
 						}
-
+						  
 						return config;
 					}
 				};
+				
 				return XSRFInterceptor;
+				
 			});
 	myapp.config([ '$httpProvider', function($httpProvider) {
 
 		$httpProvider.defaults.withCredentials = true;
 		$httpProvider.interceptors.push('XSRFInterceptor');
 
-	} ]);
+
+	}]);
 	console.log("in ajax function");
 	myapp.controller('LoginController', [ '$scope', '$http',
 			function($scope, $http) {
 				$scope.user = {
-						email : "",
+					email : "",
 					fName : "fname",
 					lName : "lname",
 					password : ""
@@ -63,7 +66,8 @@ var test={
 						params : $scope.user,
 						contentType : 'application/json'
 					}).success(function(data, status, headers, config) {
-						
+						token = config.headers['X-CSRF-TOKEN'];
+						console.log(token); 
 					});
 
 				};

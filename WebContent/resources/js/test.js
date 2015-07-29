@@ -1,55 +1,84 @@
-angular.module('hello', [ 'ngRoute' ])
-  .config(function($routeProvider, $httpProvider) {
+var myapp = angular.module('myapp', ['ngCookies']);
 
-	$routeProvider.when('/', {
-		templateUrl : 'test.html',
-		controller : 'home'
-	}).when('/login', {
-		templateUrl : 'login.html',
-		controller : 'navigation'
-	}).otherwise('/');
+//.run(['$http', '$cookies', function($http, $cookies) {
+//  $http.defaults.headers.post['X-CSRF-TOKEN'] = $cookies.XSRF-TOKEN;
+//}]);
 
-    $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 
-  })
-  .controller('home', function($scope, $http) {
-    $http.get('/resource/').success(function(data) {
-      $scope.greeting = data;
-    })
-  })
-  .controller('navigation',function($rootScope, $scope, $http, $location) {
+myapp.provider('myCSRF',[function(){
+  var headerName = 'X-CSRF-TOKEN';
+  var cookieName = 'XSRF-TOKEN';
+  var allowedMethods = ['GET','POST'];
 
-  var authenticate = function(credentials, callback) {
-
-    var headers = credentials ? {authorization : "Basic "
-        + btoa(credentials.username + ":" + credentials.password)
-    } : {};
-
-    $http.get('index', {headers : headers}).success(function(data) {
-      if (data.name) {
-        $rootScope.authenticated = true;
-      } else {
-        $rootScope.authenticated = false;
-      }
-      callback && callback();
-    }).error(function() {
-      $rootScope.authenticated = false;
-      callback && callback();
-    });
-
+  this.setHeaderName = function(n) {
+    headerName = n;
   }
-
-  authenticate();
-  $scope.credentials = {};
-  $scope.login = function() {
-      authenticate($scope.credentials, function() {
-        if ($rootScope.authenticated) {
-          $location.path("/");
-          $scope.error = false;
-        } else {
-          $location.path("/login");
-          $scope.error = true;
+  this.setCookieName = function(n) {
+    cookieName = n;
+  }
+  this.setAllowedMethods = function(n) {
+    allowedMethods = n;
+  }
+  this.$get = ['$cookies', function($cookies){
+    return {
+      'request': function(config) {
+        if(allowedMethods.indexOf(config.method) === -1) {
+          // do something on success
+          config.headers[headerName] = $cookies[cookieName];
         }
-      });
-  };
+        return config;
+      }
+    }
+  }];
+}]).config(function($httpProvider) {
+  $httpProvider.interceptors.push('myCSRF');
+});
+console.log("in ajax function");
+myapp.controller('LoginController', [ '$scope', '$http',
+		function($scope, $http) {
+			$scope.user = {
+				email : "",
+				fName : "fname",
+				lName : "lname",
+				password : ""
+			};
+
+			console.log("The username is ", $scope.user.username);
+			console.log("The username is ", $scope.user.password);
+			$scope.register = function() {
+
+				$http({
+					method : 'POST',
+					url : 'http://localhost:8089/Cart/registernew',
+					params : $scope.user,
+					contentType : 'application/json'
+				}).success(function(data, status, headers, config) {
+					
+				});
+
+			};
+			$scope.login = function() {
+
+				$http({
+					method : 'POST',
+					url : 'http://localhost:8089/Cart/j_spring_security_check',
+					params : $scope.user,
+					contentType : 'application/json'
+				}).success(function(data, status, headers, config) {
+					token = config.headers['X-CSRF-TOKEN'];
+					console.log(token); 
+				});
+
+			};
+
+		} ])
+
+myapp.controller('TabController', function() {
+	this.tab = 1;
+	this.selectTab = function(setTab) {
+		this.tab = setTab;
+	};
+	this.isSelected = function(checkTab) {
+		return this.tab === checkTab;
+	};
 });
