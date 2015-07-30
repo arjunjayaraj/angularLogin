@@ -68,12 +68,16 @@
 										$scope.user.password);
 								//						
 								$scope.register = function() {
+									var regUser={
+										username: $scope.user.j_username,
+										password: $scope.user.j_password
+									};
 
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8089/spark/adduser',
-												params : $scope.user,
+												url : 'http://localhost:8089/spark/login',
+												params :regUser,
 												contentType : 'application/json'
 											}).success(
 											function(data, status, headers,
