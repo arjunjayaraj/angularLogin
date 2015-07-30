@@ -52,7 +52,6 @@ myapp.controller('LoginController', [ '$scope', '$http',
                           				console.log("The username is ", $scope.user.username);
                           				console.log("The username is ", $scope.user.password);
                           				$scope.register = function() {
-
                           					$http({
                           						method : 'POST',
                           						url : 'http://localhost:8089/Cart/registernew',

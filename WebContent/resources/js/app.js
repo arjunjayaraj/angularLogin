@@ -5,8 +5,9 @@
 		lName : "lname",
 		password : "password"
 	};
-
-	var myapp = angular.module("myapp", [ 'ngCookies' ]).factory(
+ 
+	var myapp = angular.module("myapp", [ 'ngCookies'])
+	.factory(
 			'XSRFInterceptor', function($cookies, $log) {
 				var gettokendata = function($httpProvider) {
 					var xhr = new XMLHttpRequest();
@@ -20,6 +21,7 @@
 					request : function(config) {
 						gettokendata();
 						var token = $cookies.get('XSRF-TOKEN');
+						
 
 						console.log("the token in cookie", token);
 						if (token) {
@@ -31,16 +33,19 @@
 						return config;
 					},
 					response : function(response) {
-						var tokentest1 = response.headers('X-CSRF-HEADER');
-						var tokentest2 = response.headers('X-CSRF-PARAM');
-						var tokentest3 = response.headers('X-CSRF-TOKEN');
-						console.log("the response token1 is", tokentest1);
-						console.log("the response token2 is", tokentest2);
-						console.log("the response token3 is", tokentest3);
+//						var tokentest1 = response.headers('X-CSRF-HEADER');
+//						var tokentest2 = response.headers('X-CSRF-PARAM');
+//						var tokentest3 = response.headers('X-CSRF-TOKEN');
+//						console.log("the response token1 is", tokentest1);
+//						console.log("the response token2 is", tokentest2);
+//						console.log("the response token3 is", tokentest3);
+						
 						return response;
 					},
 				};
+				
 				return XSRFInterceptor;
+				
 			});
 
 	myapp.config([ '$httpProvider', function($httpProvider) {
@@ -48,7 +53,8 @@
 		$httpProvider.defaults.withCredentials = true;
 		$httpProvider.interceptors.push('XSRFInterceptor');
 
-	} ]);
+
+	}]);
 	console.log("in ajax function");
 	myapp
 			.controller(
@@ -68,16 +74,18 @@
 										$scope.user.password);
 								//						
 								$scope.register = function() {
-									var regUser={
-										username: $scope.user.j_username,
-										password: $scope.user.j_password
-									};
 
+									var regUser = {
+											username : 	$scope.user.j_username,
+											password : $scope.user.j_password
+										};
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8089/spark/login',
-												params :regUser,
+
+												url : 'http://localhost:8089/spark/adduser',
+												params : regUser,
+
 												contentType : 'application/json'
 											}).success(
 											function(data, status, headers,
@@ -102,7 +110,7 @@
 								};
 
 								$scope.login = function() {
-
+									
 									$http(
 											{
 												method : 'POST',
@@ -126,7 +134,7 @@
 								};
 								$scope.logout = function() {
 									console.log("inside logout");
-
+									
 									$http(
 											{
 												method : 'POST',
@@ -135,10 +143,10 @@
 											}).success(
 											function(data, status, headers,
 													config) {
-
 											}).error(
 											function(data, status, headers,
 													config) {
+												
 												
 
 											});
