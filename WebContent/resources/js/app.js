@@ -1,22 +1,17 @@
 (function() {
-	var usertest = {
-		email : "testangular2@gmail.com",
-		fName : "fname",
-		lName : "lname",
-		password : "password"
-	};
+	var access=false;
 
 	var myapp = angular.module("myapp", [ 'ngCookies','ngRoute']).factory(
 			'XSRFInterceptor', function($cookies, $log) {
 				var gettokendata = function($httpProvider) {
 					var xhr = new XMLHttpRequest();
-					xhr.open('GET', 'http://localhost:8089/spark/authenthicate', false);
+					xhr.open('HEAD', 'http://localhost:8089/spark/authenthicate', false);
 					xhr.send();
 
 				};
-
+				var headerToken ;
 				var XSRFInterceptor = {
-
+						
 					request : function(config) {
 						gettokendata();
 						var token = $cookies.get('XSRF-TOKEN');
@@ -26,17 +21,24 @@
 							config.headers['X-CSRF-TOKEN'] = token;
 
 						}
+						else{
+							config.headers['X-CSRF-TOKEN'] = headerToken;
+						}
 						config.headers['X-Requested-With'] = "XMLHttpRequest";
 
 						return config;
 					},
 					response : function(response) {
-						// var tokentest1 = response.headers('X-CSRF-HEADER');
-						// var tokentest2 = response.headers('X-CSRF-PARAM');
-						// var tokentest3 = response.headers('X-CSRF-TOKEN');
-						// console.log("the response token1 is", tokentest1);
-						// console.log("the response token2 is", tokentest2);
-						// console.log("the response token3 is", tokentest3);
+						
+						  headerToken = response.headers('X-CSRF-TOKEN');
+						console.log(headerToken);
+						var tokentest1 = response.headers('X-CSRF-HEADER');
+						 var tokentest2 = response.headers('X-CSRF-PARAM');
+						 var tokentest3 = response.headers('X-CSRF-TOKEN');
+						 console.log("the response token1 is", tokentest1);
+						 console.log("the response token2 is", tokentest2);
+						 console.log("the response token3 is", tokentest3);
+					
 
 						return response;
 					},
@@ -45,6 +47,17 @@
 				return XSRFInterceptor;
 
 			});
+	myapp.run(['$rootScope',
+		      '$location',
+		      function ($rootScope, $location) {
+		          $rootScope.$on('$routeChangeStart', function (event, next) {
+		        	  if(next.access==true&&access == false){
+		        			$location.path('/login').replace();
+
+		        			}
+
+		          });
+		      }]);
 
 	myapp.config([ '$httpProvider', function($httpProvider) {
 
@@ -61,7 +74,8 @@
 			controller : 'LoginController'
 		}).when('/home', {
 			templateUrl : 'home.html',
-			controller : 'LoginController'
+			controller : 'LoginController',
+			access:'true'
 		}).when('/errorlogin', {
 			templateUrl : 'error.html'
 		}).when('/logout', {
@@ -137,7 +151,9 @@
 											function(data, status, headers,
 													config) {
 												if(status==200){
-												$location.path("/home");}
+												$location.path("/home");
+												access=true;
+												}
 												else{
 													$location.path("/errorlogin");
 												}
@@ -167,6 +183,7 @@
 											function(data, status, headers,
 													config) {
 												$location.path("/login");
+												access=false;
 											}).error(
 											function(data, status, headers,
 													config) {
