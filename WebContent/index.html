@@ -3,70 +3,36 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- default header name is X-CSRF-TOKEN -->
-
+    <!-- default header name is X-CSRF-TOKEN -->
+ 
 <link rel="stylesheet" type="text/css" href="resources/css/index.css">
 <link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	
+	
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
-
-<script
-	src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-cookies.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-cookies.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
 <title>Welcome to Spark</title>
-
+ 
 </head>
 <body ng-app="myapp">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-3">
-				<ul class="nav">
-					<li><a href="#index"> INDEX </a></li>
-					<li><a href="#login"> LOGIN </a></li>
-				</ul>
-			</div>
-		</div>
+	<div class="mainContainer">
+		<div  ng-view></div>
 	</div>
 
-	<div  ng-view></div>
-	<div>
-		<a href=javascript:logintest()>Login test</a>
-
-	</div>
+	
+	
 </body>
-<script type="text/javascript">
-	function logintest() {
-		var usertest = {
-			email : "testridfdang@gmail.com",
-			fName : "fname",
-			lName : "lname",
-			password : "password"
-		};
-		var searchQuery = "arjun";
-		var search = "arjun";
-		console.log("in ordinary ajax function");
-		$.ajax({
-			type : "GET",
-			url : "http://localhost:8089/Cart/registernew",
-			contentType : 'application/json; charset=utf-8',
-			data : usertest,
 
-			success : function(result) {
-				console.log("The test is sucess in ordinary ajax");
-
-			}
-		});
-	}
-</script>
 
 <script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="resources/js/index.js" type="text/javascript"></script>
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<!-- <script src="resources/js/index.js" type="text/javascript"></script> -->
 <script src="resources/js/app.js" type="text/javascript"></script>
 
 </html>

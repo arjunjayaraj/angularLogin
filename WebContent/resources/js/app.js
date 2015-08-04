@@ -10,7 +10,7 @@
 			'XSRFInterceptor', function($cookies, $log) {
 				var gettokendata = function($httpProvider) {
 					var xhr = new XMLHttpRequest();
-					xhr.open('GET', 'http://localhost:8089/spark/test', false);
+					xhr.open('GET', 'http://localhost:8089/spark/authenthicate', false);
 					xhr.send();
 
 				};
@@ -46,40 +46,38 @@
 
 			});
 
-//	myapp.config([ '$httpProvider', function($httpProvider) {
-//
-//		$httpProvider.defaults.withCredentials = true;
-//		$httpProvider.interceptors.push('XSRFInterceptor');
-//
-//	} ]);
+	myapp.config([ '$httpProvider', function($httpProvider) {
+
+		$httpProvider.defaults.withCredentials = true;
+		$httpProvider.interceptors.push('XSRFInterceptor');
+
+	} ]);
 	myapp.config([ '$routeProvider', function($routeProvider) {
 		$routeProvider.when('/', {
-			templateUrl : 'index.html',
-			controller : 'indexController'
+			templateUrl : 'login.html',
+			controller : 'LoginController'
 		}).when('/login', {
 			templateUrl : 'login.html',
 			controller : 'LoginController'
 		}).when('/home', {
-			templateUrl : 'home.html'
+			templateUrl : 'home.html',
+			controller : 'LoginController'
 		}).when('/errorlogin', {
 			templateUrl : 'error.html'
-		}).when('/test', {
+		}).when('/logout', {
 			templateUrl : 'login.html'
 		}).otherwise({
 			redirectTo : '/'
 		});
 	} ]);
-	myapp
-	.controller(
-			'indexController',function(){});
 
 	myapp
 			.controller(
 					'LoginController',
 					[
 							'$scope',
-							'$http',
-							function($scope, $http) {
+							'$http','$location',
+							function($scope, $http,$location) {
 								$scope.user = {
 									j_username : "user",
 									j_password : "user"
@@ -107,6 +105,7 @@
 											}).success(
 											function(data, status, headers,
 													config) {
+												$location.path("/login");
 
 											});
 
@@ -137,7 +136,11 @@
 											}).success(
 											function(data, status, headers,
 													config) {
-											
+												if(status==200){
+												$location.path("/home");}
+												else{
+													$location.path("/errorlogin");
+												}
 
 											}).error(
 											function(data, status, headers,
@@ -146,6 +149,7 @@
 														headers);
 												console.log("error config",
 														config);
+												$location.path("/errorlogin");
 												
 
 											});
@@ -162,6 +166,7 @@
 											}).success(
 											function(data, status, headers,
 													config) {
+												$location.path("/login");
 											}).error(
 											function(data, status, headers,
 													config) {
