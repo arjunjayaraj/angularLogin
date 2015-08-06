@@ -84,9 +84,8 @@
 			templateUrl : 'http://localhost:8089/spark/resources/Login.html',
 			controller : 'LoginController'
 		}).when('/home', {
-			templateUrl : 'home.html',
-			controller : 'LoginController',
-			access:'true'
+			templateUrl : 'http://localhost:8089/spark/resources/home.html',
+			controller : 'LoginController'
 		}).when('/errorlogin', {
 			templateUrl : 'error.html'
 		}).when('/logout', {
