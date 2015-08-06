@@ -63,12 +63,25 @@
 		$httpProvider.interceptors.push('XSRFInterceptor');
 
 	} ]);
+	myapp.config(function($sceDelegateProvider) {
+		  $sceDelegateProvider.resourceUrlWhitelist([
+		    // Allow same origin resource loads.
+		    'self',
+		    // Allow loading from our assets domain.  Notice the difference between * and **.
+		    'http://localhost:8089/spark/**'
+		  ]);
+
+		  // The blacklist overrides the whitelist so the open redirect here is blocked.
+		  $sceDelegateProvider.resourceUrlBlacklist([
+		    
+		  ]);
+		});
 	myapp.config([ '$routeProvider', function($routeProvider) {
 		$routeProvider.when('/', {
-			templateUrl : 'login.html',
+			templateUrl : 'http://localhost:8089/spark/resources/Login.html',
 			controller : 'LoginController'
 		}).when('/login', {
-			templateUrl : 'login.html',
+			templateUrl : 'http://localhost:8089/spark/resources/Login.html',
 			controller : 'LoginController'
 		}).when('/home', {
 			templateUrl : 'home.html',
@@ -77,7 +90,7 @@
 		}).when('/errorlogin', {
 			templateUrl : 'error.html'
 		}).when('/logout', {
-			templateUrl : 'login.html'
+			templateUrl : 'http://localhost:8089/spark/resources/Login.html'
 		}).otherwise({
 			redirectTo : '/'
 		});
