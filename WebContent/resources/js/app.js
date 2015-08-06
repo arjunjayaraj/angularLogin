@@ -2,14 +2,20 @@
 	var access=false;
 
 	var myapp = angular.module("myapp", [ 'ngCookies','ngRoute']).factory(
+		
+
 			'XSRFInterceptor', function($cookies, $log) {
+				var headerToken ;
 				var gettokendata = function($httpProvider) {
 					var xhr = new XMLHttpRequest();
-					xhr.open('HEAD', 'http://localhost:8089/spark/authenthicate', false);
+					xhr.open('GET', 'http://localhost:8089/spark/authenthicate', false);
+		
 					xhr.send();
-
+					headerToken =xhr.getResponseHeader('X-CSRF-TOKEN');
+					console.log("the header token is ss " ,headerToken);
 				};
-				var headerToken ;
+		
+			 
 				var XSRFInterceptor = {
 						
 					request : function(config) {
@@ -17,7 +23,7 @@
 						var token = $cookies.get('XSRF-TOKEN');
 
 						console.log("the token in cookie", token);
-						if (token) {
+						if (token!=null) {
 							config.headers['X-CSRF-TOKEN'] = token;
 
 						}
@@ -30,15 +36,7 @@
 					},
 					response : function(response) {
 						
-						  headerToken = response.headers('X-CSRF-TOKEN');
-						console.log(headerToken);
-						var tokentest1 = response.headers('X-CSRF-HEADER');
-						 var tokentest2 = response.headers('X-CSRF-PARAM');
-						 var tokentest3 = response.headers('X-CSRF-TOKEN');
-						 console.log("the response token1 is", tokentest1);
-						 console.log("the response token2 is", tokentest2);
-						 console.log("the response token3 is", tokentest3);
-					
+
 
 						return response;
 					},
@@ -97,11 +95,6 @@
 									j_password : "user"
 								};
 
-								console.log("The username is ",
-										$scope.user.username);
-								console.log("The username is ",
-										$scope.user.password);
-								//						
 								$scope.register = function() {
 
 									var regUser = {
@@ -124,20 +117,7 @@
 											});
 
 								};
-								$scope.test = function() {
-
-									$http(
-											{
-												method : 'GET',
-												url : 'http://localhost:8089/spark/test',
-												contentType : 'application/json'
-											}).success(
-											function(data, status, headers,
-													config) {
-
-											});
-
-								};
+								
 
 								$scope.login = function() {
 
