@@ -5,12 +5,19 @@
 
 	'XSRFInterceptor', function($cookies, $log) {
 
+		var gettokendata = function($httpProvider) {
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', 'http://localhost:8089/spark/resources/Login.html', false);
+			xhr.send();
+			headerToken =xhr.getResponseHeader('X-CSRF-TOKEN');
+			console.log("the header token is ss " ,headerToken);
+		};
+
+		
 		var XSRFInterceptor = {
 
 			request : function(config) {
 				var token = $cookies.get('XSRF-TOKEN');
-
-				console.log("the token in cookie in request", token);
 				if (token != null) {
 					config.headers['X-CSRF-TOKEN'] = token;
 
@@ -23,6 +30,16 @@
 
 				return response;
 			},
+			responseError: function(response) {
+				console.log("inside response error",response.status);
+					if(response.status == 403){
+						access=false;
+//						gettokendata();
+					
+						}
+
+				return response;
+			}
 		};
 
 		return XSRFInterceptor;
@@ -66,13 +83,15 @@
 			templateUrl : 'http://localhost:8089/spark/resources/Login.html',
 			controller : 'LoginController'
 		}).when('/home', {
-			templateUrl : 'http://localhost:8089/spark/resources/home.html',
+			templateUrl : 'http://localhost:8089/spark/home.html',
 			controller : 'LoginController',
 			access:true
 		}).when('/errorlogin', {
-			templateUrl : 'http://localhost:8089/spark/resources/error.html'
+			templateUrl : 'http://localhost:8089/spark/resources/error.html',
+			controller : 'LoginController'
 		}).when('/logout', {
-			templateUrl : 'http://localhost:8089/spark/resources/Login.html'
+			templateUrl : 'http://localhost:8089/spark/resources/Login.html',
+			controller : 'LoginController'
 		}).otherwise({
 			redirectTo : '/'
 		});
@@ -87,8 +106,8 @@
 							'$location',
 							function($scope, $http, $location) {
 								$scope.user = {
-									j_username : "user",
-									j_password : "user"
+									j_username : "admin",
+									j_password : "admin"
 								};
 
 								$scope.register = function() {
@@ -171,7 +190,7 @@
 											});
 
 								};
-
+								
 							} ])
 
 	myapp.controller('TabController', function() {
