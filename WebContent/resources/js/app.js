@@ -1,19 +1,13 @@
 (function() {
 	var access = false;
+	
 
+	
 	var myapp = angular.module("myapp", [ 'ngCookies', 'ngRoute' ]).factory(
 
-	'XSRFInterceptor', function($cookies, $log) {
+	'XSRFInterceptor', function($cookies, $log,$location) {
 
-		var gettokendata = function($httpProvider) {
-			var xhr = new XMLHttpRequest();
-			xhr.open('GET', 'http://localhost:8089/spark/resources/Login.html', false);
-			xhr.send();
-			headerToken =xhr.getResponseHeader('X-CSRF-TOKEN');
-			console.log("the header token is ss " ,headerToken);
-		};
-
-		
+			
 		var XSRFInterceptor = {
 
 			request : function(config) {
@@ -30,12 +24,12 @@
 
 				return response;
 			},
-			responseError: function(response) {
+			responseError: function(response,$http) {
 				console.log("inside response error",response.status);
-					if(response.status == 403){
-						access=false;
-//						gettokendata();
-					
+					if(response.status == 403||response.status == 401){
+				
+						
+						
 						}
 
 				return response;
@@ -45,6 +39,8 @@
 		return XSRFInterceptor;
 
 	});
+
+
 	myapp.run([ '$rootScope', '$location', function($rootScope, $location) {
 		$rootScope.$on('$routeChangeStart', function(event, next) {
 			if (next.access == true && access == false) {
@@ -83,11 +79,14 @@
 			templateUrl : 'http://localhost:8089/spark/resources/Login.html',
 			controller : 'LoginController'
 		}).when('/home', {
-			templateUrl : 'http://localhost:8089/spark/home.html',
+			templateUrl : 'http://localhost:8089/spark/resources/home.html',
 			controller : 'LoginController',
 			access:true
 		}).when('/errorlogin', {
 			templateUrl : 'http://localhost:8089/spark/resources/error.html',
+			controller : 'LoginController'
+		}).when('/navigate', {
+			templateUrl : 'http://localhost:8089/spark/resources/navigate.html',
 			controller : 'LoginController'
 		}).when('/logout', {
 			templateUrl : 'http://localhost:8089/spark/resources/Login.html',
@@ -103,11 +102,11 @@
 					[
 							'$scope',
 							'$http',
-							'$location',
-							function($scope, $http, $location) {
+							'$location','$cookies',
+							function($scope, $http, $location,$cookies) {
 								$scope.user = {
-									j_username : "admin",
-									j_password : "admin"
+									j_username : "",
+									j_password : ""
 								};
 
 								$scope.register = function() {
@@ -127,6 +126,7 @@
 											}).success(
 											function(data, status, headers,
 													config) {
+												
 												$location.path("/login");
 
 											});
@@ -134,21 +134,25 @@
 								};
 
 								$scope.login = function() {
-
+									
 									$http(
 											{
 												method : 'POST',
 												url : 'http://localhost:8089/spark/j_spring_security_check',
 												params : $scope.user,
+												
 												contentType : 'application/json'
 											})
 											.success(
 													function(data, status,
 															headers, config) {
+											
 														if (status == 200) {
+															access = true;
 															$location
 																	.path("/home");
-															access = true;
+															
+													
 														} else {
 															$location
 																	.path("/errorlogin");
@@ -158,6 +162,7 @@
 											.error(
 													function(data, status,
 															headers, config) {
+														test();
 														console.log(
 																"error header",
 																headers);
@@ -181,8 +186,29 @@
 											}).success(
 											function(data, status, headers,
 													config) {
-												$location.path("/login");
+												$location.path("/login").replace();
 												access = false;
+												
+											}).error(
+											function(data, status, headers,
+													config) {
+
+
+											});
+
+								};
+								$scope.test = function() {
+									console.log("inside logout");
+
+									$http(
+											{
+												method : 'GET',
+												url : 'http://localhost:8089/spark/resources/Login.html',
+												contentType : 'application/json'
+											}).success(
+											function(data, status, headers,
+													config) {
+											
 											}).error(
 											function(data, status, headers,
 													config) {
